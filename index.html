@@ -1,27 +1,99 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Ihsan</title>
-    <link rel="stylesheet" href="style.css">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Enable Dark Mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+
+    <!-- ANIMASI BENAR / SALAH -->
+    <style>
+        /* SHAKE (SALAH) */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        /* BOUNCE (BENAR) */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .animate-pop {
+            animation: pop 0.35s ease-out;
+        }
+    </style>
 </head>
-<body>
 
-    <div class="wrapper">
-        <div class="container">
-            <h1 id="judul">Selamat Datang di Web Ihsan</h1>
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center px-4">
 
-            <p id="teks">Di mana Allah?</p>
-            <p>Pilih salah satu jawabannya di bawah ini</p>
+    <!-- CARD -->
+    <div class="bg-white dark:bg-gray-800 text-center p-8 rounded-2xl shadow-xl max-w-xl w-full">
 
-            <div class="button-group">
-                <button onclick="jawabanBenar()">Allah bersemayam di atas arsy</button>
-                <button onclick="jawabanSalah()">Allah ada di mana-mana</button>
-            </div>
+        <!-- DARK MODE BUTTON -->
+        <div class="flex justify-end mb-4">
+            <button onclick="toggleDarkMode()"
+                class="text-sm px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 dark:text-white transition">
+                🌙 Dark Mode
+            </button>
+        </div>
+
+        <h1 id="judul" class="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+            Selamat Datang di Web Ihsan
+        </h1>
+
+        <p id="teks" class="text-gray-600 dark:text-gray-300 text-lg mb-2">
+            Di mana Allah?
+        </p>
+
+        <p class="text-gray-500 dark:text-gray-400 mb-6">
+            Pilih salah satu jawabannya di bawah ini
+        </p>
+
+        <div class="flex flex-col gap-4">
+            <button onclick="jawabanBenar()"
+                class="bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl transition transform hover:scale-105">
+                Allah bersemayam di atas arsy
+            </button>
+
+            <button onclick="jawabanSalah()"
+                class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl transition transform hover:scale-105">
+                Allah ada di mana-mana
+            </button>
         </div>
     </div>
 
+    <!-- POPUP -->
+    <div id="popup" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl max-w-md text-center">
+            <h2 id="popupTitle" class="text-2xl font-bold mb-4 text-gray-800 dark:text-white"></h2>
+            <p id="popupText" class="text-gray-600 dark:text-gray-300 mb-6"></p>
+            <button onclick="tutupPopup()"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
     <script src="script.js"></script>
 </body>
 </html>
