@@ -4,23 +4,61 @@
 const soundBenar = new Audio("audio/benar.mp3");
 const soundSalah = new Audio("audio/salah.mp3");
 
-// Debug kalau audio tidak ketemu
 soundBenar.onerror = () => console.log("Audio BENAR tidak ditemukan");
 soundSalah.onerror = () => console.log("Audio SALAH tidak ditemukan");
+
+function createRipple(event, element, color) {
+    const rect = element.getBoundingClientRect();
+    const circle = document.createElement("span");
+    const size = Math.max(rect.width, rect.height);
+
+    const x = (event.touches ? event.touches[0].clientX : event.clientX) - rect.left - size / 2;
+    const y = (event.touches ? event.touches[0].clientY : event.clientY) - rect.top - size / 2;
+
+    circle.style.width = circle.style.height = `${size}px`;
+    circle.style.left = `${x}px`;
+    circle.style.top = `${y}px`;
+
+    circle.className = `ripple ${color}`;
+
+    element.appendChild(circle);
+
+    setTimeout(() => circle.remove(), 600);
+}
+
+function showMasyaAllah() {
+    const card = document.getElementById("card");
+    const text = document.createElement("div");
+
+    text.innerText = "MasyaAllah";
+    text.className = "masyaallah";
+
+    card.appendChild(text);
+
+    setTimeout(() => text.remove(), 1200);
+}
+
 
 // ======================
 // JAWABAN BENAR
 // ======================
-function jawabanBenar() {
-    const card = document.querySelector(".bg-white");
+function jawabanBenar(event) {
+    const btn = document.getElementById("btnBenar");
+    const card = document.getElementById("card");
 
     soundBenar.currentTime = 0;
     soundBenar.play();
 
-    card.classList.remove("animate-shake");
-    card.classList.add("animate-pop");
+    // Ripple
+    createRipple(event, btn, "ripple-green");
 
-    setTimeout(() => card.classList.remove("animate-pop"), 400);
+    // Glow ke CARD
+    card.classList.remove("animate-glow");
+    void card.offsetWidth;
+    card.classList.add("animate-glow");
+
+    // MasyaAllah
+    showMasyaAllah();
 
     tampilkanPopup(
         "Jawaban Benar ✅",
@@ -28,25 +66,30 @@ function jawabanBenar() {
     );
 }
 
+
+
+
+
+
 // ======================
 // JAWABAN SALAH
 // ======================
-function jawabanSalah() {
-    const card = document.querySelector(".bg-white");
+function jawabanSalah(event) {
+    const btn = document.getElementById("btnSalah");
 
     soundSalah.currentTime = 0;
     soundSalah.play();
 
-    card.classList.remove("animate-pop");
-    card.classList.add("animate-shake");
-
-    setTimeout(() => card.classList.remove("animate-shake"), 400);
+    createRipple(event, btn, "ripple-red");
 
     tampilkanPopup(
         "Jawaban Salah ❌",
         "Allah tidak berada di mana-mana. Allah Maha Tinggi dan bersemayam di atas Arsy sesuai dengan kebesaran-Nya."
     );
 }
+
+
+
 
 // ======================
 // POPUP
