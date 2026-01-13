@@ -1,12 +1,3 @@
-// ======================
-// AUDIO
-// ======================
-const soundBenar = new Audio("audio/benar.mp3");
-const soundSalah = new Audio("audio/salah.mp3");
-
-soundBenar.onerror = () => console.log("Audio BENAR tidak ditemukan");
-soundSalah.onerror = () => console.log("Audio SALAH tidak ditemukan");
-
 function createRipple(event, element, color) {
     const rect = element.getBoundingClientRect();
     const circle = document.createElement("span");
@@ -26,19 +17,6 @@ function createRipple(event, element, color) {
     setTimeout(() => circle.remove(), 600);
 }
 
-function showMasyaAllah() {
-    const card = document.getElementById("card");
-    const text = document.createElement("div");
-
-    text.innerText = "MasyaAllah";
-    text.className = "masyaallah";
-
-    card.appendChild(text);
-
-    setTimeout(() => text.remove(), 1200);
-}
-
-
 // ======================
 // JAWABAN BENAR
 // ======================
@@ -46,28 +24,21 @@ function jawabanBenar(event) {
     const btn = document.getElementById("btnBenar");
     const card = document.getElementById("card");
 
-    soundBenar.currentTime = 0;
-    soundBenar.play();
-
-    // Ripple
+    // ripple tombol
     createRipple(event, btn, "ripple-green");
 
-    // Glow ke CARD
-    card.classList.remove("animate-glow");
-    void card.offsetWidth;
-    card.classList.add("animate-glow");
+    // glow CARD
+    card.classList.remove("animate-glow-card");
+    void card.offsetWidth; // reset animasi
+    card.classList.add("animate-glow-card");
 
-    // MasyaAllah
-    showMasyaAllah();
-
-    tampilkanPopup(
-        "Jawaban Benar ✅",
-        "Dalil ada pada QS. Thoha : 5 — “(Yaitu) Rabb Yang Maha Pemurah, Yang bersemayam di atas Arsy.”"
-    );
+    setTimeout(() => {
+        tampilkanPopup(
+            "Jawaban Benar ✅",
+            "Dalil ada pada QS. Thoha : 5 — “(Yaitu) Rabb Yang Maha Pemurah, Yang bersemayam di atas Arsy.”"
+        );
+    }, 300);
 }
-
-
-
 
 
 
@@ -76,17 +47,23 @@ function jawabanBenar(event) {
 // ======================
 function jawabanSalah(event) {
     const btn = document.getElementById("btnSalah");
-
-    soundSalah.currentTime = 0;
-    soundSalah.play();
+    const body = document.body;
 
     createRipple(event, btn, "ripple-red");
 
-    tampilkanPopup(
-        "Jawaban Salah ❌",
-        "Allah tidak berada di mana-mana. Allah Maha Tinggi dan bersemayam di atas Arsy sesuai dengan kebesaran-Nya."
-    );
+    body.classList.remove("shake-screen");
+    void body.offsetWidth;
+    body.classList.add("shake-screen");
+
+    setTimeout(() => {
+        tampilkanPopup(
+            "Jawaban Salah ❌",
+            "Allah tidak berada di mana-mana. Allah Maha Tinggi dan bersemayam di atas Arsy sesuai dengan kebesaran-Nya."
+        );
+    }, 300);
 }
+
+
 
 
 
