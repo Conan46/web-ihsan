@@ -7,93 +7,212 @@
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Enable Dark Mode -->
     <script>
         tailwind.config = {
             darkMode: 'class'
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    <!-- ANIMASI BENAR / SALAH -->
     <style>
-        /* SHAKE (SALAH) */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-6px); }
-            40% { transform: translateX(6px); }
-            60% { transform: translateX(-6px); }
-            80% { transform: translateX(6px); }
-        }
+/* SHAKE (SALAH) */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
 
-        .animate-shake {
-            animation: shake 0.4s ease-in-out;
-        }
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
 
-        /* BOUNCE (BENAR) */
-        @keyframes pop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-            100% { transform: scale(1); }
-        }
+/* POP (BENAR) */
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
 
-        .animate-pop {
-            animation: pop 0.35s ease-out;
-        }
-    </style>
+.animate-pop {
+  animation: pop 0.35s ease-out;
+}
+</style>
+<style>
+/* GETAR LAYAR (SALAH) */
+@keyframes screen-shake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-10px); }
+  30% { transform: translateX(10px); }
+  45% { transform: translateX(-10px); }
+  60% { transform: translateX(10px); }
+  75% { transform: translateX(-6px); }
+}
+
+.shake-screen {
+  animation: screen-shake 0.5s ease-in-out;
+}
+</style>
+<style>
+/* =====================
+   RIPPLE EFFECT
+===================== */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 0.6s ease-out;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.ripple-green {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ripple-red {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+</style>
+<style>
+/* =====================
+   GLOW EFFECT (BENAR)
+===================== */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+.animate-glow {
+  animation: glow 0.8s ease-out;
+}
+</style>
+<style>
+/* =====================
+   MASYAALLAH TEXT
+===================== */
+.masyaallah {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #22c55e;
+  opacity: 0;
+  pointer-events: none;
+  animation: masyaallah 1.2s ease-out forwards;
+}
+
+@keyframes masyaallah {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -80%);
+  }
+}
+</style>
+
+
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center px-4">
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center px-3 sm:px-6">
 
     <!-- CARD -->
-    <div class="bg-white dark:bg-gray-800 text-center p-8 rounded-2xl shadow-xl max-w-xl w-full">
+    <div class="bg-white dark:bg-gray-800 w-full max-w-md sm:max-w-xl
+                text-center p-5 sm:p-8 rounded-2xl shadow-xl">
 
-        <!-- DARK MODE BUTTON -->
+        <!-- DARK MODE -->
         <div class="flex justify-end mb-4">
             <button onclick="toggleDarkMode()"
-                class="text-sm px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 dark:text-white transition">
+                class="text-xs sm:text-sm px-3 py-2 rounded-lg
+                       bg-gray-200 dark:bg-gray-700 dark:text-white">
                 🌙 Dark Mode
             </button>
         </div>
 
-        <h1 id="judul" class="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+        <h1 id="judul"
+            class="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-3">
             Selamat Datang di Web Ihsan
         </h1>
 
-        <p id="teks" class="text-gray-600 dark:text-gray-300 text-lg mb-2">
+        <p id="teks"
+            class="text-gray-600 dark:text-gray-300 text-base sm:text-lg mb-2">
             Di mana Allah?
         </p>
 
-        <p class="text-gray-500 dark:text-gray-400 mb-6">
+        <p class="text-gray-500 dark:text-gray-400 text-sm sm:text-base mb-6">
             Pilih salah satu jawabannya di bawah ini
         </p>
 
-        <div class="flex flex-col gap-4">
-            <button onclick="jawabanBenar()"
-                class="bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl transition transform hover:scale-105">
+        <!-- BUTTONS -->
+        <div class="flex flex-col gap-4 relative" id="card">
+
+            <button id="btnBenar"
+onclick="jawabanBenar(arguments[0] || event)"
+class="relative overflow-hidden w-full bg-blue-500 hover:bg-blue-600 text-white
+       py-4 rounded-xl text-base sm:text-lg transition active:scale-95">
+
+
+
                 Allah bersemayam di atas arsy
             </button>
 
-            <button onclick="jawabanSalah()"
-                class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl transition transform hover:scale-105">
+            <button id="btnSalah"
+onclick="jawabanSalah(arguments[0] || event)"
+class="relative overflow-hidden w-full bg-blue-500 hover:bg-blue-600 text-white
+       py-4 rounded-xl text-base sm:text-lg transition active:scale-95">
+
+
+
                 Allah ada di mana-mana
             </button>
         </div>
     </div>
 
     <!-- POPUP -->
-    <div id="popup" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl max-w-md text-center">
-            <h2 id="popupTitle" class="text-2xl font-bold mb-4 text-gray-800 dark:text-white"></h2>
-            <p id="popupText" class="text-gray-600 dark:text-gray-300 mb-6"></p>
+    <div id="popup"
+        class="fixed inset-0 bg-black/50 hidden items-center justify-center px-4">
+        <div
+            class="bg-white dark:bg-gray-800 w-full max-w-md
+                   p-6 rounded-xl text-center
+                   max-h-[80vh] overflow-y-auto">
+
+            <h2 id="popupTitle"
+                class="text-xl sm:text-2xl font-bold mb-3 text-gray-800 dark:text-white"></h2>
+
+            <p id="popupText"
+                class="text-gray-600 dark:text-gray-300 text-sm sm:text-base mb-6"></p>
+
             <button onclick="tutupPopup()"
-                class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg">
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white
+                       py-3 rounded-lg">
                 Tutup
             </button>
         </div>
     </div>
 
-    <!-- SCRIPT -->
     <script src="script.js"></script>
 </body>
 </html>
